@@ -1,0 +1,5 @@
+telegram:
+  bot:
+    sample-informer:
+      username: UNKSampleInformerBot
+      token: REPLACE_WITH_TOKEN
