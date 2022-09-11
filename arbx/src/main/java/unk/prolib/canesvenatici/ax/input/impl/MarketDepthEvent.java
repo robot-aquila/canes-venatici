@@ -38,9 +38,17 @@ public class MarketDepthEvent implements AXMarketDepthEvent {
             return this;
         }
         
+        public MarketDepthEventBuilder addUpdateAskEvent(String price, String volume) {
+            return addUpdateAskEvent(new BigDecimal(price), new BigDecimal(volume));
+        }
+        
         public MarketDepthEventBuilder addUpdateBidEvent(BigDecimal price, BigDecimal volume) {
             quoteEvents.add(QuoteEvent.builder().symbol(symbol).updateBid(price, volume).build());
             return this;
+        }
+        
+        public MarketDepthEventBuilder addUpdateBidEvent(String price, String volume) {
+            return addUpdateBidEvent(new BigDecimal(price), new BigDecimal(volume));
         }
         
         public MarketDepthEventBuilder addDeleteAskEvent(BigDecimal price) {
@@ -48,9 +56,17 @@ public class MarketDepthEvent implements AXMarketDepthEvent {
             return this;
         }
         
+        public MarketDepthEventBuilder addDeleteAskEvent(String price) {
+            return addDeleteAskEvent(new BigDecimal(price));
+        }
+        
         public MarketDepthEventBuilder addDeleteBidEvent(BigDecimal price) {
             quoteEvents.add(QuoteEvent.builder().symbol(symbol).deleteBid(price).build());
             return this;
+        }
+        
+        public MarketDepthEventBuilder addDeleteBidEvent(String price) {
+            return addDeleteBidEvent(new BigDecimal(price));
         }
     }
 }

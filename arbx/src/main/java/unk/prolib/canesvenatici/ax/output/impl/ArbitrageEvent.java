@@ -8,19 +8,19 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import unk.prolib.canesvenatici.ax.output.AXArbitrageEvent;
-import unk.prolib.canesvenatici.ax.output.AXSpread;
+import unk.prolib.canesvenatici.ax.output.AXArbitrageSpread;
 
 @Builder(toBuilder = true)
 @ToString
 @EqualsAndHashCode
 @Getter
 public class ArbitrageEvent implements AXArbitrageEvent {
-    @NonNull private final AXSpread spreadAtStart;
-    @NonNull private final AXSpread spreadAtMaximum;
-    private final AXSpread spreadAtEnd;
+    @NonNull private final AXArbitrageSpread spreadAtStart;
+    @NonNull private final AXArbitrageSpread spreadAtMaximum;
+    private final AXArbitrageSpread spreadAtEnd;
 
     @Override
-    public Optional<AXSpread> getSpreadAtEnd() {
+    public Optional<AXArbitrageSpread> getSpreadAtEnd() {
         return Optional.ofNullable(spreadAtEnd);
     }
 

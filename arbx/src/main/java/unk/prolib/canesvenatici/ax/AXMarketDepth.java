@@ -33,4 +33,20 @@ public interface AXMarketDepth {
     default BigDecimal getBestAskVolume() {
         return getBestAsk().getVolume();
     }
+    
+    default int getAskCount() {
+        return getAsks().size();
+    }
+    
+    default int getBidCount() {
+        return getBids().size();
+    }
+    
+    default boolean hasAsks() {
+        return getAskCount() > 0;
+    }
+    
+    default boolean hasBids() {
+        return getBidCount() > 0;
+    }
 }

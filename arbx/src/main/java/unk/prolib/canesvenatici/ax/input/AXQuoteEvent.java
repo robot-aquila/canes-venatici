@@ -15,4 +15,6 @@ public interface AXQuoteEvent extends AXQuote {
      */
     @Override
     BigDecimal getVolume();
+    
+    AXQuote toQuote();
 }
