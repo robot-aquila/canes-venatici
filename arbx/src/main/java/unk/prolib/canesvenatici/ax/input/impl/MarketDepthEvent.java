@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import lombok.Builder;
@@ -32,25 +31,25 @@ public class MarketDepthEvent implements AXMarketDepthEvent {
     }
     
     public static class MarketDepthEventBuilder {
-        private Set<AXQuoteEvent> quoteEvents = new LinkedHashSet<>();
+        private Set<AXQuoteEvent> quoteEvents = new HashSet<>();
         
         public MarketDepthEventBuilder addUpdateAskEvent(BigDecimal price, BigDecimal volume) {
-            quoteEvents.add(QuoteEvent.buildUpdateAsk(price, volume));
+            quoteEvents.add(QuoteEvent.builder().symbol(symbol).updateAsk(price, volume).build());
             return this;
         }
         
         public MarketDepthEventBuilder addUpdateBidEvent(BigDecimal price, BigDecimal volume) {
-            quoteEvents.add(QuoteEvent.buildUpdateBid(price, volume));
+            quoteEvents.add(QuoteEvent.builder().symbol(symbol).updateBid(price, volume).build());
             return this;
         }
         
         public MarketDepthEventBuilder addDeleteAskEvent(BigDecimal price) {
-            quoteEvents.add(QuoteEvent.buildDeleteAsk(price));
+            quoteEvents.add(QuoteEvent.builder().symbol(symbol).deleteAsk(price).build());
             return this;
         }
         
         public MarketDepthEventBuilder addDeleteBidEvent(BigDecimal price) {
-            quoteEvents.add(QuoteEvent.buildDeleteBid(price));
+            quoteEvents.add(QuoteEvent.builder().symbol(symbol).deleteBid(price).build());
             return this;
         }
     }
