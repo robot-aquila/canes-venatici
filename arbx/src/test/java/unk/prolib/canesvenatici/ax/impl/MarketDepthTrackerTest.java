@@ -28,7 +28,6 @@ class MarketDepthTrackerTest {
         return T("2022-09-12T00:47:00Z");
     }
 
-
     @Test
     void testConsume_ShouldThrowIfBadSymbol() {
         var event = MarketDepthEvent.builder()
