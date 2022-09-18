@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import unk.prolib.canesvenatici.ax.AXAskSymbol;
+import unk.prolib.canesvenatici.ax.AXBidSymbol;
 import unk.prolib.canesvenatici.ax.AXMarketDepth;
 import unk.prolib.canesvenatici.ax.AXMarketDepthTracker;
 import unk.prolib.canesvenatici.ax.AXQuote;
@@ -22,8 +24,8 @@ import unk.prolib.canesvenatici.ax.input.AXQuoteEvent;
 @RequiredArgsConstructor
 public class MarketDepthTracker implements AXMarketDepthTracker {
     @NonNull private final AXSymbol symbol;
-    private final Map<BigDecimal, AXQuote> askQuotes = new HashMap<>();
-    private final Map<BigDecimal, AXQuote> bidQuotes = new HashMap<>();
+    private final Map<BigDecimal, AXQuote<AXAskSymbol>> askQuotes = new HashMap<>();
+    private final Map<BigDecimal, AXQuote<AXBidSymbol>> bidQuotes = new HashMap<>();
     private Instant lastUpdateTime;
     
     @Override
@@ -35,23 +37,30 @@ public class MarketDepthTracker implements AXMarketDepthTracker {
             lastUpdateTime = event.getUpdateTime();
         }
         for ( AXQuoteEvent quoteEvent : event.getQuoteEvents() ) {
-            Map<BigDecimal, AXQuote> target = null;
-            switch ( quoteEvent.getQuoteType() ) {
-            case ASK:
-                target = askQuotes;
-                break;
-            case BID:
-                target = bidQuotes;
-                break;
-            default:
-                throw new UnsupportedOperationException();
-            }
             switch ( quoteEvent.getEventType() ) {
             case DELETE:
-                target.remove(quoteEvent.getPrice());
+                switch ( quoteEvent.getQuoteType() ) {
+                case ASK:
+                    askQuotes.remove(quoteEvent.getPrice());
+                    break;
+                case BID:
+                    bidQuotes.remove(quoteEvent.getPrice());
+                    break;
+                default:
+                    throw new UnsupportedOperationException();
+                }
                 break;
             case UPDATE:
-                target.put(quoteEvent.getPrice(), quoteEvent.toQuote());
+                switch ( quoteEvent.getQuoteType() ) {
+                case ASK:
+                    askQuotes.put(quoteEvent.getPrice(), quoteEvent.toAskQuote());
+                    break;
+                case BID:
+                    bidQuotes.put(quoteEvent.getPrice(), quoteEvent.toBidQuote());
+                    break;
+                default:
+                    throw new UnsupportedOperationException();
+                }
                 break;
             default:
                 throw new UnsupportedOperationException();

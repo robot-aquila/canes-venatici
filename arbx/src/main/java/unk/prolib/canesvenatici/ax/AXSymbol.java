@@ -15,4 +15,8 @@ public interface AXSymbol {
     default boolean isDifferentExchanges(@NonNull AXSymbol symbol) {
         return ! getExchangeID().equals(symbol.getExchangeID());
     }
+    
+    default boolean isSameExchanges(@NonNull AXSymbol symbol) {
+        return ! isDifferentExchanges(symbol);
+    }
 }

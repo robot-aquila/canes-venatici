@@ -7,14 +7,14 @@ import java.util.List;
 public interface AXMarketDepth {
     AXSymbol getSymbol();
     Instant getLastUpdateTime();
-    List<AXQuote> getBids();
-    List<AXQuote> getAsks();
+    List<AXQuote<AXBidSymbol>> getBids();
+    List<AXQuote<AXAskSymbol>> getAsks();
     
-    default AXQuote getBestBid() {
+    default AXQuote<AXBidSymbol> getBestBid() {
         return getBids().get(0);
     }
     
-    default AXQuote getBestAsk() {
+    default AXQuote<AXAskSymbol> getBestAsk() {
         return getAsks().get(0);
     }
     

@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import unk.prolib.canesvenatici.ax.AXAskSymbol;
+import unk.prolib.canesvenatici.ax.AXBidSymbol;
 import unk.prolib.canesvenatici.ax.AXQuote;
 import unk.prolib.canesvenatici.ax.output.AXArbitrageSpread;
 
@@ -16,19 +18,19 @@ import unk.prolib.canesvenatici.ax.output.AXArbitrageSpread;
 @EqualsAndHashCode
 public class ArbitrageSpread implements AXArbitrageSpread {
     @NonNull private final Instant time;
-    @NonNull private final AXQuote bidQuote;
-    @NonNull private final AXQuote askQuote;
+    @NonNull private final AXQuote<AXBidSymbol> bidQuote;
+    @NonNull private final AXQuote<AXAskSymbol> askQuote;
     
     public static class ArbitrageSpreadBuilder {
         
-        private ArbitrageSpreadBuilder validateQuotes(AXQuote ask, AXQuote bid) {
+        private ArbitrageSpreadBuilder validateQuotes(AXQuote<AXAskSymbol> ask, AXQuote<AXBidSymbol> bid) {
             if ( ask == null || bid == null ) {
                 return this;
             }
             if ( ! ask.getSymbol().isSimilarTo(bid.getSymbol()) ) {
                 throw new IllegalArgumentException("Spread quotes must be of similar symbols");
             }
-            if ( ask.getSymbol().isDifferentExchanges(bid.getSymbol()) ) {
+            if ( ask.getSymbol().isSameExchanges(bid.getSymbol()) ) {
                 throw new IllegalArgumentException("Expected quotes of different exchanges");
             }
             if ( ! ask.isAsk() ) {
@@ -40,12 +42,12 @@ public class ArbitrageSpread implements AXArbitrageSpread {
             return this;
         }
         
-        public ArbitrageSpreadBuilder askQuote(AXQuote askQuote) {
+        public ArbitrageSpreadBuilder askQuote(AXQuote<AXAskSymbol> askQuote) {
             validateQuotes(askQuote, bidQuote).askQuote = askQuote;
             return this;
         }
         
-        public ArbitrageSpreadBuilder bidQuote(AXQuote bidQuote) {
+        public ArbitrageSpreadBuilder bidQuote(AXQuote<AXBidSymbol> bidQuote) {
             validateQuotes(askQuote, bidQuote).bidQuote = bidQuote;
             return this;
         }

@@ -2,8 +2,8 @@ package unk.prolib.canesvenatici.ax;
 
 import java.math.BigDecimal;
 
-public interface AXQuote extends Comparable<AXQuote> {
-    AXSymbol getSymbol();
+public interface AXQuote<T extends AXSymbol> extends Comparable<AXQuote<T>> {
+    T getSymbol();
     AXQuoteType getQuoteType();
     BigDecimal getPrice();
     BigDecimal getVolume();
@@ -17,7 +17,7 @@ public interface AXQuote extends Comparable<AXQuote> {
     }
     
     @Override
-    default int compareTo(AXQuote other) {
+    default int compareTo(AXQuote<T> other) {
         if ( other == null ) {
             return 1;
         }

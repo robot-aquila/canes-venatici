@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import unk.prolib.canesvenatici.ax.AXAskSymbol;
+import unk.prolib.canesvenatici.ax.AXBidSymbol;
 import unk.prolib.canesvenatici.ax.AXQuote;
 import unk.prolib.canesvenatici.ax.AXQuoteType;
 import unk.prolib.canesvenatici.ax.AXSymbol;
@@ -89,12 +91,13 @@ class QuoteTest {
         assertEquals(new BigDecimal("115"), actual.getVolume());
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     void testCompareTo_AskVsBidShouldThrow() {
-        assertThrows(IllegalArgumentException.class,
-                () -> Quote.ofAsk(symbol, "20.15", "100").compareTo(Quote.ofBid(symbol, "20.15", "100")));
-        assertThrows(IllegalArgumentException.class,
-                () -> Quote.ofBid(symbol, "20.15", "100").compareTo(Quote.ofAsk(symbol, "20.15", "100")));
+        AXQuote ask = Quote.ofAsk(symbol, "20.15", "100");
+        AXQuote bid = Quote.ofBid(symbol, "20.15", "100");
+        assertThrows(IllegalArgumentException.class, () -> ask.compareTo(bid));
+        assertThrows(IllegalArgumentException.class, () -> bid.compareTo(ask));
     }
 
     @Test
@@ -108,7 +111,7 @@ class QuoteTest {
         assertEquals( 1, quote2.compareTo(quote1));
         assertEquals(-1, quote2.compareTo(quote3));
         
-        List<AXQuote> sorted = new ArrayList<>();
+        List<AXQuote<AXAskSymbol>> sorted = new ArrayList<>();
         sorted.add(quote1);
         sorted.add(quote2);
         sorted.add(quote3);
@@ -130,7 +133,7 @@ class QuoteTest {
         assertEquals( 1, quote2.compareTo(quote1));
         assertEquals(-1, quote2.compareTo(quote3));
         
-        List<AXQuote> sorted = new ArrayList<>();
+        List<AXQuote<AXBidSymbol>> sorted = new ArrayList<>();
         sorted.add(quote1);
         sorted.add(quote2);
         sorted.add(quote3);

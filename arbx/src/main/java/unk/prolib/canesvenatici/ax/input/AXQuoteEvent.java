@@ -2,9 +2,12 @@ package unk.prolib.canesvenatici.ax.input;
 
 import java.math.BigDecimal;
 
+import unk.prolib.canesvenatici.ax.AXAskSymbol;
+import unk.prolib.canesvenatici.ax.AXBidSymbol;
 import unk.prolib.canesvenatici.ax.AXQuote;
+import unk.prolib.canesvenatici.ax.AXSymbol;
 
-public interface AXQuoteEvent extends AXQuote {
+public interface AXQuoteEvent extends AXQuote<AXSymbol> {
     
     AXQuoteEventType getEventType();
     
@@ -16,5 +19,6 @@ public interface AXQuoteEvent extends AXQuote {
     @Override
     BigDecimal getVolume();
     
-    AXQuote toQuote();
+    AXQuote<AXAskSymbol> toAskQuote();
+    AXQuote<AXBidSymbol> toBidQuote();
 }

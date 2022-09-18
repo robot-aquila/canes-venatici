@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import unk.prolib.canesvenatici.ax.AXAskSymbol;
+import unk.prolib.canesvenatici.ax.AXBidSymbol;
 import unk.prolib.canesvenatici.ax.AXMarketDepth;
 import unk.prolib.canesvenatici.ax.AXQuote;
 import unk.prolib.canesvenatici.ax.AXSymbol;
@@ -21,12 +23,12 @@ import unk.prolib.canesvenatici.ax.AXSymbol;
 public class MarketDepth implements AXMarketDepth {
     @NonNull private final AXSymbol symbol;
     @NonNull private final Instant lastUpdateTime;
-    @NonNull private final List<AXQuote> asks;
-    @NonNull private final List<AXQuote> bids;
+    @NonNull private final List<AXQuote<AXAskSymbol>> asks;
+    @NonNull private final List<AXQuote<AXBidSymbol>> bids;
     
     public static class MarketDepthBuilder {
-        private List<AXQuote> asks = new ArrayList<>();
-        private List<AXQuote> bids = new ArrayList<>();
+        private List<AXQuote<AXAskSymbol>> asks = new ArrayList<>();
+        private List<AXQuote<AXBidSymbol>> bids = new ArrayList<>();
         
         private MarketDepthBuilder expectSymbol() {
             if ( symbol == null ) {
@@ -46,7 +48,7 @@ public class MarketDepth implements AXMarketDepth {
         
         public MarketDepthBuilder addAsk(@NonNull BigDecimal price, @NonNull BigDecimal volume) {
             expectSymbol();
-            asks.add(Quote.builder().ask().symbol(symbol).price(price).volume(volume).build());
+            asks.add(Quote.ofAsk(symbol, price, volume));
             return this;
         }
         
@@ -56,7 +58,7 @@ public class MarketDepth implements AXMarketDepth {
         
         public MarketDepthBuilder addBid(@NonNull BigDecimal price, @NonNull BigDecimal volume) {
             expectSymbol();
-            bids.add(Quote.builder().bid().symbol(symbol).price(price).volume(volume).build());
+            bids.add(Quote.ofBid(symbol, price, volume));
             return this;
         }
         

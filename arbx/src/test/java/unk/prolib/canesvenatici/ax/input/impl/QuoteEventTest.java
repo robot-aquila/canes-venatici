@@ -68,7 +68,7 @@ class QuoteEventTest {
         assertEquals( 1, quote2.compareTo(quote1));
         assertEquals(-1, quote2.compareTo(quote3));
         
-        List<AXQuote> sorted = new ArrayList<>();
+        List<AXQuote<AXSymbol>> sorted = new ArrayList<>();
         sorted.add(quote1);
         sorted.add(quote2);
         sorted.add(quote3);
@@ -90,7 +90,7 @@ class QuoteEventTest {
         assertEquals( 1, quote2.compareTo(quote1));
         assertEquals(-1, quote2.compareTo(quote3));
         
-        List<AXQuote> sorted = new ArrayList<>();
+        List<AXQuote<AXSymbol>> sorted = new ArrayList<>();
         sorted.add(quote1);
         sorted.add(quote2);
         sorted.add(quote3);

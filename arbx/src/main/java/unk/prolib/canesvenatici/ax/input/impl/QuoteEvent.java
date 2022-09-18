@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import unk.prolib.canesvenatici.ax.AXAskSymbol;
+import unk.prolib.canesvenatici.ax.AXBidSymbol;
 import unk.prolib.canesvenatici.ax.AXQuote;
 import unk.prolib.canesvenatici.ax.AXQuoteType;
 import unk.prolib.canesvenatici.ax.AXSymbol;
@@ -101,13 +103,29 @@ public class QuoteEvent implements AXQuoteEvent {
     }
     
     @Override
-    public AXQuote toQuote() {
+    public AXQuote<AXAskSymbol> toAskQuote() {
+        if ( this.quoteType != AXQuoteType.ASK ) {
+            throw new UnsupportedOperationException();
+        }
         switch ( eventType ) {
         case UPDATE:
-            return Quote.builder().symbol(symbol).quoteType(quoteType).price(price).volume(volume).build();
+            return Quote.ofAsk(symbol, price, volume);
         default:
             throw new IllegalStateException("Unsupported event type: " + eventType);
         }
     }
 
+    @Override
+    public AXQuote<AXBidSymbol> toBidQuote() {
+        if ( this.quoteType != AXQuoteType.BID ) {
+            throw new UnsupportedOperationException();
+        }
+        switch ( eventType ) {
+        case UPDATE:
+            return Quote.ofBid(symbol, price, volume);
+        default:
+            throw new IllegalStateException("Unsupported event type: " + eventType);
+        }
+    }
+    
 }
