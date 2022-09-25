@@ -5,16 +5,15 @@ import java.util.Optional;
 import unk.prolib.canesvenatici.ax.output.AXArbitrageSpread;
 
 /**
- * Detector of spread between two exchanges when it is possible to be technically determined.
+ * Detector of spread of same security between two exchanges when possible.
  */
 public interface AXSpreadDetector {
     
     /**
      * Detect spread between two source exchanges.
      * <p>
-     * @param askSymbol - security we may want to buy
-     * @param bidSymbol - security we want to sell
+     * @param pair - arbitrage pair
      * @return a spread if can be determined or empty value if no spread
      */
-    Optional<AXArbitrageSpread> detectSpread(AXAskSymbol askSymbol, AXBidSymbol bidSymbol);
+    Optional<AXArbitrageSpread> detectSpread(AXArbitragePair pair);
 }

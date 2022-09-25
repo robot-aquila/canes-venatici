@@ -25,7 +25,7 @@ class SymbolTest {
     }
 
     @Test
-    void testIsSimilarTo() {
+    void testIsSimilarTo_Symbol() {
         assertTrue(service.isSimilarTo(Symbol.builder()
                 .exchangeID("TUBORG")
                 .baseAsset("USD")
@@ -49,17 +49,43 @@ class SymbolTest {
     }
 
     @Test
-    void testIsDifferentExchanges() {
-        assertTrue(service.isDifferentExchanges(Symbol.builder()
+    void testIsSimilarTo_SymbolSubject() {
+        assertTrue(service.isSimilarTo(SymbolSubject.builder()
+                .baseAsset("USD")
+                .quoteAsset("RUB")
+                .build()));
+        assertFalse(service.isSimilarTo(SymbolSubject.builder()
+                .baseAsset("CAD")
+                .quoteAsset("RUB")
+                .build()));
+        assertFalse(service.isSimilarTo(SymbolSubject.builder()
+                .baseAsset("USD")
+                .quoteAsset("GBP")
+                .build()));
+    }
+
+    @Test
+    void testIsDiffExchanges() {
+        assertTrue(service.isDiffExchanges(Symbol.builder()
                 .exchangeID("KAPPA")
                 .baseAsset("LOL")
                 .quoteAsset("GAP")
                 .build()));
-        assertFalse(service.isDifferentExchanges(Symbol.builder()
+        assertFalse(service.isDiffExchanges(Symbol.builder()
                 .exchangeID("TUBORG")
                 .baseAsset("LOL")
                 .quoteAsset("GAP")
                 .build()));
     }
 
+    @Test
+    void testToSubject() {
+        var actual = service.toSubject();
+        
+        var expected = SymbolSubject.builder()
+                .baseAsset("USD")
+                .quoteAsset("RUB")
+                .build();
+        assertEquals(expected, actual);
+    }
 }

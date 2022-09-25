@@ -12,8 +12,7 @@ import lombok.ToString;
 import unk.prolib.canesvenatici.ax.AXMarketDepth;
 import unk.prolib.canesvenatici.ax.AXMarketDepthRegistry;
 import unk.prolib.canesvenatici.ax.AXSpreadDetector;
-import unk.prolib.canesvenatici.ax.AXAskSymbol;
-import unk.prolib.canesvenatici.ax.AXBidSymbol;
+import unk.prolib.canesvenatici.ax.AXArbitragePair;
 import unk.prolib.canesvenatici.ax.output.AXArbitrageSpread;
 import unk.prolib.canesvenatici.ax.output.impl.ArbitrageSpread;
 
@@ -29,11 +28,11 @@ public class SpreadDetectorVega implements AXSpreadDetector {
     @NonNull private final Duration marketDepthMaxUpdateDelay;
 
     @Override
-    public Optional<AXArbitrageSpread> detectSpread(AXAskSymbol askSymbol, AXBidSymbol bidSymbol) {
+    public Optional<AXArbitrageSpread> detectSpread(AXArbitragePair pair) {
         AXMarketDepth buyers, sellers;
         var t = clock.instant();
-        if (   ! Objects.isNull(buyers = registry.getMarketDepth(bidSymbol).orElse(null))
-            && ! Objects.isNull(sellers = registry.getMarketDepth(askSymbol).orElse(null))
+        if (   ! Objects.isNull(buyers = registry.getMarketDepth(pair.getBidSymbol()).orElse(null))
+            && ! Objects.isNull(sellers = registry.getMarketDepth(pair.getAskSymbol()).orElse(null))
             && Duration.between(buyers.getLastUpdateTime(), t).abs().compareTo(marketDepthMaxUpdateDelay) <= 0
             && Duration.between(sellers.getLastUpdateTime(), t).abs().compareTo(marketDepthMaxUpdateDelay) <= 0
             && buyers.hasBids() && sellers.hasAsks()

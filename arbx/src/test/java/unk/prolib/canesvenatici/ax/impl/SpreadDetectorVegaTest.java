@@ -12,19 +12,20 @@ import org.easymock.IMocksControl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import unk.prolib.canesvenatici.ax.AXAskSymbol;
-import unk.prolib.canesvenatici.ax.AXBidSymbol;
+import unk.prolib.canesvenatici.ax.AXArbitragePair;
 import unk.prolib.canesvenatici.ax.AXMarketDepthRegistry;
+import unk.prolib.canesvenatici.ax.AXSymbol;
 import unk.prolib.canesvenatici.ax.output.impl.ArbitrageSpread;
 
 class SpreadDetectorVegaTest {
     private static Duration MAX_UPDATE_DELAY = Duration.ofMinutes(5);
-    private static AXAskSymbol ASK_SYMBOL = AskSymbol.of(Symbol.builder()
+    private static AXSymbol ASK_SYMBOL = Symbol.builder()
             .exchangeID("AAA").baseAsset("LTC").quoteAsset("BTC")
-            .build());
-    private static AXBidSymbol BID_SYMBOL = BidSymbol.of(Symbol.builder()
+            .build();
+    private static AXSymbol BID_SYMBOL = Symbol.builder()
             .exchangeID("BBB").baseAsset("LTC").quoteAsset("BTC")
-            .build());
+            .build();
+    private static AXArbitragePair PAIR = ArbitragePair.of(ASK_SYMBOL.toAskSymbol(), BID_SYMBOL.toBidSymbol());
     private static Instant
         T1 = T("2022-09-18T12:05:00Z"),
         T2 = T("2022-09-18T12:06:00Z"),
@@ -58,7 +59,7 @@ class SpreadDetectorVegaTest {
                 .build()));
         control.replay();
         
-        assertEquals(Optional.empty(), service.detectSpread(ASK_SYMBOL, BID_SYMBOL));
+        assertEquals(Optional.empty(), service.detectSpread(PAIR));
         
         control.verify();
     }
@@ -74,7 +75,7 @@ class SpreadDetectorVegaTest {
         expect(registryMock.getMarketDepth(ASK_SYMBOL)).andStubReturn(Optional.empty());
         control.replay();
         
-        assertEquals(Optional.empty(), service.detectSpread(ASK_SYMBOL, BID_SYMBOL));
+        assertEquals(Optional.empty(), service.detectSpread(PAIR));
         
         control.verify();
     }
@@ -94,7 +95,7 @@ class SpreadDetectorVegaTest {
                 .build()));
         control.replay();
         
-        assertEquals(Optional.empty(), service.detectSpread(ASK_SYMBOL, BID_SYMBOL));
+        assertEquals(Optional.empty(), service.detectSpread(PAIR));
         
         control.verify();
     }
@@ -114,7 +115,7 @@ class SpreadDetectorVegaTest {
                 .build()));
         control.replay();
         
-        assertEquals(Optional.empty(), service.detectSpread(ASK_SYMBOL, BID_SYMBOL));
+        assertEquals(Optional.empty(), service.detectSpread(PAIR));
         
         control.verify();
     }
@@ -133,7 +134,7 @@ class SpreadDetectorVegaTest {
                 .build()));
         control.replay();
         
-        assertEquals(Optional.empty(), service.detectSpread(ASK_SYMBOL, BID_SYMBOL));
+        assertEquals(Optional.empty(), service.detectSpread(PAIR));
         
         control.verify();
     }
@@ -152,7 +153,7 @@ class SpreadDetectorVegaTest {
                 .build()));
         control.replay();
         
-        assertEquals(Optional.empty(), service.detectSpread(ASK_SYMBOL, BID_SYMBOL));
+        assertEquals(Optional.empty(), service.detectSpread(PAIR));
         
         control.verify();
     }
@@ -172,7 +173,7 @@ class SpreadDetectorVegaTest {
                 .build()));
         control.replay();
         
-        var actual = service.detectSpread(ASK_SYMBOL, BID_SYMBOL).get();
+        var actual = service.detectSpread(PAIR).get();
         
         control.verify();
         var expected = ArbitrageSpread.builder()

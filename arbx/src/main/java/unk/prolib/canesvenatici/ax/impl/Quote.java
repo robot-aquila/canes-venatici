@@ -53,19 +53,19 @@ public class Quote<T extends AXSymbol> implements AXQuote<T> {
     }
     
     public static Quote<AXAskSymbol> ofAsk(AXSymbol symbol, BigDecimal price, BigDecimal volume) {
-        return Quote.<AXAskSymbol>builder().ask().symbol(AskSymbol.of(symbol)).price(price).volume(volume).build();
+        return Quote.<AXAskSymbol>builder().ask().symbol(symbol.toAskSymbol()).price(price).volume(volume).build();
     }
     
     public static Quote<AXAskSymbol> ofAsk(AXSymbol symbol, String price, String volume) {
-        return Quote.<AXAskSymbol>builder().ask().symbol(AskSymbol.of(symbol)).price(price).volume(volume).build();
+        return Quote.<AXAskSymbol>builder().ask().symbol(symbol.toAskSymbol()).price(price).volume(volume).build();
     }
     
     public static Quote<AXBidSymbol> ofBid(AXSymbol symbol, BigDecimal price, BigDecimal volume) {
-        return Quote.<AXBidSymbol>builder().bid().symbol(BidSymbol.of(symbol)).price(price).volume(volume).build();
+        return Quote.<AXBidSymbol>builder().bid().symbol(symbol.toBidSymbol()).price(price).volume(volume).build();
     }
     
     public static Quote<AXBidSymbol> ofBid(AXSymbol symbol, String price, String volume) {
-        return Quote.<AXBidSymbol>builder().bid().symbol(BidSymbol.of(symbol)).price(price).volume(volume).build();
+        return Quote.<AXBidSymbol>builder().bid().symbol(symbol.toBidSymbol()).price(price).volume(volume).build();
     }
 
 }

@@ -5,5 +5,6 @@ import java.util.Optional;
 public interface AXMarketDepthRegistry {
 
     Optional<AXMarketDepth> getMarketDepth(AXSymbol symbol);
+    void updateMarketDepth(AXMarketDepth marketDepth);
 
 }

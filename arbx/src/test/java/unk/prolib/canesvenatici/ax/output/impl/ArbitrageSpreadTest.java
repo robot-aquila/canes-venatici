@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import unk.prolib.canesvenatici.ax.AXAskSymbol;
 import unk.prolib.canesvenatici.ax.AXBidSymbol;
-import unk.prolib.canesvenatici.ax.impl.AskSymbol;
-import unk.prolib.canesvenatici.ax.impl.BidSymbol;
 import unk.prolib.canesvenatici.ax.impl.Quote;
 import unk.prolib.canesvenatici.ax.impl.Symbol;
 
@@ -58,11 +56,11 @@ class ArbitrageSpreadTest {
     void testBuilder_AskQuoteShouldBeAskType() {
         var quote = Quote.<AXAskSymbol>builder()
                 .bid()
-                .symbol(AskSymbol.of(Symbol.builder()
+                .symbol(Symbol.builder()
                         .exchangeID("YYY")
                         .baseAsset("A")
                         .quoteAsset("B")
-                        .build()))
+                        .build().toAskSymbol())
                 .price("26.95")
                 .volume("150")
                 .build();
@@ -82,11 +80,11 @@ class ArbitrageSpreadTest {
     void testBuilder_BidQuoteShouldBeBidType() {
         var quote = Quote.<AXBidSymbol>builder()
                 .ask()
-                .symbol(BidSymbol.of(Symbol.builder()
+                .symbol(Symbol.builder()
                         .exchangeID("YYY")
                         .baseAsset("A")
                         .quoteAsset("B")
-                        .build()))
+                        .build().toBidSymbol())
                 .price("26.95")
                 .volume("150")
                 .build();
