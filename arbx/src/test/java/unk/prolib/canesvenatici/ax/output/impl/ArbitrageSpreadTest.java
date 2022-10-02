@@ -15,6 +15,8 @@ import unk.prolib.canesvenatici.ax.impl.Symbol;
 
 class ArbitrageSpreadTest {
     private static final Instant ANY_TIME = Instant.parse("2022-09-25T00:00:00Z");
+    private static final Symbol symbol1 = Symbol.builder().exchangeID("XXX").baseAsset("A").quoteAsset("B").build();
+    private static final Symbol symbol2 = Symbol.builder().exchangeID("YYY").baseAsset("A").quoteAsset("B").build();
 
     @BeforeEach
     void setUp() throws Exception {
@@ -106,8 +108,6 @@ class ArbitrageSpreadTest {
 
     @Test
     void testGetAbsoluteValue() {
-        var symbol1 = Symbol.builder().exchangeID("XXX").baseAsset("A").quoteAsset("B").build();
-        var symbol2 = Symbol.builder().exchangeID("YYY").baseAsset("A").quoteAsset("B").build();
         assertEquals(new BigDecimal("0.18"), ArbitrageSpread.builder()
                 .time(ANY_TIME)
                 .askQuote(Quote.ofAsk(symbol1, "26.95", "150"))
@@ -120,5 +120,26 @@ class ArbitrageSpreadTest {
                 .bidQuote(Quote.ofBid(symbol2, "26.14", "180"))
                 .build()
                 .getAbsoluteValue());
+    }
+
+    @Test
+    void testGetBidToAskPriceRatioAndProfitAndLoss() {
+        var spread = ArbitrageSpread.builder()
+                .time(ANY_TIME)
+                .askQuote(Quote.ofAsk(symbol1, "124.26", "800"))
+                .bidQuote(Quote.ofBid(symbol2, "154.02", "200"))
+                .build();
+        // 154.02/124.26=1.239498
+        assertEquals(1.239498d, spread.getBidToAskPriceRatio(), 0.0000001d);
+        assertEquals(0.239498d, spread.getProfitAndLoss(), 0.0000001d);
+        
+        spread = ArbitrageSpread.builder()
+                .time(ANY_TIME)
+                .askQuote(Quote.ofAsk(symbol1, "86.72", "100"))
+                .bidQuote(Quote.ofBid(symbol2, "75.12", "200"))
+                .build();
+        // 75.12/86.72=0.866236
+        assertEquals(0.866236d, spread.getBidToAskPriceRatio(), 0.0000001d);
+        assertEquals(-0.133764d, spread.getProfitAndLoss(), 0.0000001d);
     }
 }

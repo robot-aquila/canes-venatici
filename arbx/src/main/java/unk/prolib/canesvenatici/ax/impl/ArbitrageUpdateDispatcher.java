@@ -6,12 +6,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.ToString;
 import unk.prolib.canesvenatici.ax.AXArbitrageUpdateDispatcher;
 import unk.prolib.canesvenatici.ax.AXArbitrageUpdateHandler;
 import unk.prolib.canesvenatici.ax.AXSymbol;
 
-
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 public class ArbitrageUpdateDispatcher implements AXArbitrageUpdateDispatcher {
     @NonNull private final AXArbitrageUpdateHandler handler;

@@ -5,13 +5,17 @@ import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.ToString;
 import unk.prolib.canesvenatici.ax.AXArbitragePair;
 import unk.prolib.canesvenatici.ax.AXArbitrageUpdateHandler;
 import unk.prolib.canesvenatici.ax.AXSpreadDetector;
 import unk.prolib.canesvenatici.ax.output.AXArbitrageEventListener;
 import unk.prolib.canesvenatici.ax.output.impl.ArbitrageEvent;
 
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 public class ArbitrageUpdateHandler implements AXArbitrageUpdateHandler {
     @NonNull private final AXSpreadDetector openingSpreadDetector;

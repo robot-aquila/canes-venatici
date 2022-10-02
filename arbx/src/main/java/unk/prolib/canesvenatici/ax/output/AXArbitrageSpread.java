@@ -1,6 +1,7 @@
 package unk.prolib.canesvenatici.ax.output;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 
 import unk.prolib.canesvenatici.ax.AXAskSymbol;
@@ -34,8 +35,24 @@ public interface AXArbitrageSpread {
      * @return ask quote
      */
     AXQuote<AXAskSymbol> getAskQuote();
-
+    
+    default BigDecimal getBidQuotePrice() {
+        return getBidQuote().getPrice();
+    }
+    
+    default BigDecimal getAskQuotePrice() {
+        return getAskQuote().getPrice();
+    }
+    
     default BigDecimal getAbsoluteValue() {
         return getBidQuote().getPrice().subtract(getAskQuote().getPrice());
+    }
+
+    default double getBidToAskPriceRatio() {
+        return getBidQuotePrice().divide(getAskQuotePrice(), 6, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    default double getProfitAndLoss() {
+        return getBidToAskPriceRatio() - 1;
     }
 }
