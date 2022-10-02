@@ -18,6 +18,8 @@ import unk.prolib.canesvenatici.ax.AXMarketDepthTrackerFactory;
 import unk.prolib.canesvenatici.ax.AXSymbol;
 import unk.prolib.canesvenatici.ax.input.AXMarketDepthEvent;
 
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 public class ArbitrageService implements AXArbitrageService {
     
