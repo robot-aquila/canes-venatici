@@ -1,7 +1,5 @@
 package unk.prolib.canesvenatici.ax.output.impl;
 
-import java.util.Optional;
-
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,11 +15,6 @@ import unk.prolib.canesvenatici.ax.output.AXArbitrageSpread;
 public class ArbitrageEvent implements AXArbitrageEvent {
     @NonNull private final AXArbitrageSpread spreadAtStart;
     @NonNull private final AXArbitrageSpread spreadAtMaximum;
-    private final AXArbitrageSpread spreadAtEnd;
-
-    @Override
-    public Optional<AXArbitrageSpread> getSpreadAtEnd() {
-        return Optional.ofNullable(spreadAtEnd);
-    }
+    @NonNull private final AXArbitrageSpread spreadAtEnd;
 
 }

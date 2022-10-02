@@ -1,5 +1,6 @@
 package unk.prolib.canesvenatici.ax.output;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import unk.prolib.canesvenatici.ax.AXAskSymbol;
@@ -34,4 +35,7 @@ public interface AXArbitrageSpread {
      */
     AXQuote<AXAskSymbol> getAskQuote();
 
+    default BigDecimal getAbsoluteValue() {
+        return getBidQuote().getPrice().subtract(getAskQuote().getPrice());
+    }
 }

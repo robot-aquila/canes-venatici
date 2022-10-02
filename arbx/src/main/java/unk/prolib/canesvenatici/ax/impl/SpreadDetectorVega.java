@@ -16,6 +16,11 @@ import unk.prolib.canesvenatici.ax.AXArbitragePair;
 import unk.prolib.canesvenatici.ax.output.AXArbitrageSpread;
 import unk.prolib.canesvenatici.ax.output.impl.ArbitrageSpread;
 
+/**
+ * Basic spread-detection mechanism.
+ * This class does not perform any restrictions excepting time relevance.
+ * Existing spread may be negative.
+ */
 @ToString
 @EqualsAndHashCode
 @Builder
