@@ -1,0 +1,47 @@
+[
+    {
+        "symbol": "ETH:BTC:XXX",
+        "time": "-",
+        "events": [
+            "A:125.19:1000"
+        ]
+    },
+    {
+        "symbol": "ETH:BTC:YYY",
+        "time": "-",
+        "events": [
+            "B:127.15:100"
+        ]
+    },
+    {
+        "symbol": "ETH:BTC:XXX",
+        "time": "-",
+        "events": [
+            "A:120.54:100"
+        ]
+    },
+    {
+        "symbol": "ETH:BTC:YYY",
+        "time": "-",
+        "events": [
+            "B:130.15:150"
+        ]
+    },
+    {
+        "symbol": "ETH:BTC:XXX",
+        "time": "-",
+        "events": [
+            "A:120.54",
+            "A:125.47:200"
+        ]
+    },
+    {
+        "symbol": "ETH:BTC:YYY",
+        "time": "-",
+        "events": [
+            "B:130.15",
+            "B:126.20:100"
+        ]
+    }
+
+]

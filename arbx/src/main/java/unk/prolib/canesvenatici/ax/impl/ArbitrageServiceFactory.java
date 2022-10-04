@@ -1,5 +1,6 @@
 package unk.prolib.canesvenatici.ax.impl;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class ArbitrageServiceFactory {
         private AXMarketDepthTrackerFactory trackerFactory = new MarketDepthTrackerFactory();
         private List<SpreadDetectorValidator.Validator> validators = new ArrayList<>();
         private Duration marketDepthMaxUpdateDelay = Duration.ofMinutes(5L);
+        private Clock clock = Clock.systemUTC();
         
         public ArbitrageServiceBuilderV1 withEventListener(AXArbitrageEventListener listener) {
             this.listener = listener;
@@ -87,14 +89,21 @@ public class ArbitrageServiceFactory {
             return this.withMarketDepthMaxUpdateDelay(Duration.ofMinutes(minutes));
         }
         
+        public ArbitrageServiceBuilderV1 withClock(Clock clock) {
+            this.clock = clock;
+            return this;
+        }
+        
         public ArbitrageService build() {
             Objects.requireNonNull(listener, "Event listener was not specified");
             Objects.requireNonNull(registry, "MD registry was not specified");
             Objects.requireNonNull(trackerFactory, "MD tracker factory was not specified");
             Objects.requireNonNull(marketDepthMaxUpdateDelay, "MD max update delay was not specified");
+            Objects.requireNonNull(clock, "Clock was not specified");
             var spreadDetector = SpreadDetectorValidator.builder()
                     .detector(SpreadDetectorVega.builder()
                             .marketDepthMaxUpdateDelay(marketDepthMaxUpdateDelay)
+                            .clock(clock)
                             .registry(registry)
                             .build())
                     .validators(validators)

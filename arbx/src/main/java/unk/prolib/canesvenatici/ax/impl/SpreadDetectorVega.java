@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
-import unk.prolib.canesvenatici.ax.AXMarketDepth;
 import unk.prolib.canesvenatici.ax.AXMarketDepthRegistry;
 import unk.prolib.canesvenatici.ax.AXSpreadDetector;
 import unk.prolib.canesvenatici.ax.AXArbitragePair;
@@ -34,10 +33,10 @@ public class SpreadDetectorVega implements AXSpreadDetector {
 
     @Override
     public Optional<AXArbitrageSpread> detectSpread(AXArbitragePair pair) {
-        AXMarketDepth buyers, sellers;
+        var buyers = registry.getMarketDepth(pair.getBidSymbol()).orElse(null);
+        var sellers = registry.getMarketDepth(pair.getAskSymbol()).orElse(null);
         var t = clock.instant();
-        if (   ! Objects.isNull(buyers = registry.getMarketDepth(pair.getBidSymbol()).orElse(null))
-            && ! Objects.isNull(sellers = registry.getMarketDepth(pair.getAskSymbol()).orElse(null))
+        if ( ! Objects.isNull(buyers) && ! Objects.isNull(sellers)
             && Duration.between(buyers.getLastUpdateTime(), t).abs().compareTo(marketDepthMaxUpdateDelay) <= 0
             && Duration.between(sellers.getLastUpdateTime(), t).abs().compareTo(marketDepthMaxUpdateDelay) <= 0
             && buyers.hasBids() && sellers.hasAsks()
