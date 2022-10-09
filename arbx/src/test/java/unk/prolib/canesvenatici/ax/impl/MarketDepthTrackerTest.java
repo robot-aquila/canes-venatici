@@ -99,4 +99,27 @@ class MarketDepthTrackerTest {
                 .build(), actual);
     }
 
+    @Test
+    void testConsume_SnapshotUpdate() {
+        service.consume(MarketDepthEvent.builder()
+                .symbol(symbol1)
+                .updateTime(T("2022-09-12T01:53:00Z"))
+                .addUpdateAskEvent("115.02", "290")
+                .addUpdateBidEvent("110.39", "800")
+                .build());
+        
+        var actual = service.consume(MarketDepthEvent.builder()
+                .symbol(symbol1)
+                .updateTime(T("2022-09-12T01:53:00Z"))
+                .snapshot(true)
+                .addUpdateAskEvent("130.00", "300")
+                .addUpdateBidEvent("120.00", "400")
+                .build());
+        assertEquals(MarketDepth.builder()
+                .symbol(symbol1)
+                .lastUpdateTime("2022-09-12T01:53:00Z")
+                .addAsk("130.00", "300")
+                .addBid("120.00", "400")
+                .build(), actual);
+    }
 }

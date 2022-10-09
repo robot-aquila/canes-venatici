@@ -9,4 +9,5 @@ public interface AXMarketDepthEvent {
     Instant getUpdateTime();
     AXSymbol getSymbol();
     Set<AXQuoteEvent> getQuoteEvents();
+    boolean isSnapshot();
 }

@@ -88,6 +88,7 @@ class ArbitrageServiceIT {
         private AXSymbol symbol;
         private Instant updateTime;
         private Set<AXQuoteEvent> quoteEvents;
+        private boolean snapshot;
         
         public void setSymbol(String symbol) {
             var chunks = symbol.split(":");
@@ -114,6 +115,10 @@ class ArbitrageServiceIT {
                     throw new IllegalArgumentException("Unexpected event #" + i + " format: " + events.get(i), e);
                 }
             }
+        }
+        
+        public void setSnapshot(boolean snapshot) {
+            this.snapshot = snapshot;
         }
         
         private AXQuoteEvent parseEvent(String e) {
@@ -237,6 +242,25 @@ class ArbitrageServiceIT {
                     .build()
             );
         assertEquals(expected, listener.events);
+    }
+    
+    @Test
+    void testMarketDepthSnapshotUpdate() {
+        expect(clockMock.instant()).andStubReturn(DEFAULT_TIME);
+        control.replay();
+        loadInputEvents("input-events2.json").forEach(service);
+        
+        var actual = registry.getMarketDepth(SYMBOL1).get();
+        
+        var expected = MarketDepth.builder()
+                .symbol(SYMBOL1)
+                .lastUpdateTime("2022-01-01T00:02:00Z")
+                .addBid("141.00", "200")
+                .addBid("140.00", "150")
+                .addAsk("150.00", "250")
+                .addAsk("151.00", "300")
+                .build();
+        assertEquals(expected, actual);
     }
 
 }

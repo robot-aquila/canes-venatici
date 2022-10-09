@@ -36,6 +36,10 @@ public class MarketDepthTracker implements AXMarketDepthTracker {
         if ( lastUpdateTime == null || event.getUpdateTime().compareTo(lastUpdateTime) > 0 ) {
             lastUpdateTime = event.getUpdateTime();
         }
+        if ( event.isSnapshot() ) {
+            askQuotes.clear();
+            bidQuotes.clear();
+        }
         for ( AXQuoteEvent quoteEvent : event.getQuoteEvents() ) {
             switch ( quoteEvent.getEventType() ) {
             case DELETE:

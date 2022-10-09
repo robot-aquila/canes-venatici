@@ -23,15 +23,20 @@ public class MarketDepthEvent implements AXMarketDepthEvent {
     private final Instant updateTime;
     private final AXSymbol symbol;
     private final Set<AXQuoteEvent> quoteEvents;
+    private boolean snapshot;
     
-    private MarketDepthEvent(@NonNull Instant updateTime, @NonNull AXSymbol symbol, @NonNull Set<AXQuoteEvent> events) {
+    private MarketDepthEvent(@NonNull Instant updateTime, @NonNull AXSymbol symbol, @NonNull Set<AXQuoteEvent> events,
+            boolean snapshot)
+    {
         this.updateTime = updateTime;
         this.symbol = symbol;
         this.quoteEvents = Collections.unmodifiableSet(new HashSet<>(events));
+        this.snapshot = snapshot;
     }
     
     public static class MarketDepthEventBuilder {
         private Set<AXQuoteEvent> quoteEvents = new HashSet<>();
+        private boolean snapshot = false;
         
         public MarketDepthEventBuilder addUpdateAskEvent(BigDecimal price, BigDecimal volume) {
             quoteEvents.add(QuoteEvent.builder().symbol(symbol).updateAsk(price, volume).build());

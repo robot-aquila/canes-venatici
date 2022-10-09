@@ -2,6 +2,7 @@
     {
         "symbol": "ETH:BTC:XXX",
         "time": "-",
+        "snapshot": true,
         "events": [
             "A:125.19:1000"
         ]
@@ -9,6 +10,7 @@
     {
         "symbol": "ETH:BTC:YYY",
         "time": "-",
+        "snapshot": true,
         "events": [
             "B:127.15:100"
         ]
